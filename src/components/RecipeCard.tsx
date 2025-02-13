@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import type { IRecipe } from '../@types/recipe';
 
 // TYPESCRIPT : type des props du composant RecipeCard
@@ -16,9 +17,13 @@ export default function RecipeCard({ recipeToDisplay }: RecipeCardProps) {
         <h2 className="card-title">{recipeToDisplay.title}</h2>
         <p>{recipeToDisplay.description}</p>
         <div className="card-actions justify-end">
-          <button type="button" className="btn btn-primary">
+          <Link
+            to={`/recipe/${recipeToDisplay.slug}`}
+            type="button"
+            className="btn btn-primary"
+          >
             Voir la recette
-          </button>
+          </Link>
         </div>
       </div>
     </div>

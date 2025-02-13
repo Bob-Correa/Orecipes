@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import './index.css';
+import { BrowserRouter } from 'react-router';
 import App from './App.tsx';
 
 // getElementById renvoie une valeur de type HTMLElement ou null , nous on met le ! qui dit c'est pas null donc c'est forcement un Element
@@ -9,7 +10,9 @@ const rootElt = document.getElementById('root');
 
 if (rootElt) {
   createRoot(rootElt).render(
-    <App />,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
   );
 } else {
   console.log("erreur il n'y a pas de div root dans la page");

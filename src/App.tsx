@@ -5,6 +5,8 @@ import MainPage from './components/MainPage';
 import NavBar from './components/Nav';
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+
   // STATE pour stocker les recettes
   // on va les passer via une prop
   // - à NavBar pour qu'il affiche des li
@@ -58,6 +60,9 @@ function App() {
 
   return (
     <div className="flex min-h-screen">
+      <button onClick={() => setIsDark(!isDark)} className="absolute">
+        {isDark ? <div>☀️</div> : <div>🌙</div>}
+      </button>
       {
         // si isLoading est vrai alors on affiche un loader et sinon on affiche la navbar et le main
         isLoading ? (
@@ -65,7 +70,9 @@ function App() {
         ) : (
           <>
             <NavBar recipesList={recipes} />
-            <div className="p-4 w-3/4 bg-white">
+            <div
+              className={isDark ? 'p-4 w-3/4 bg-black' : 'p-4 w-3/4 bg-white'}
+            >
               <Header />
               {errorMessage && (
                 <p className="p-4 text-orange-600">{errorMessage}</p>
