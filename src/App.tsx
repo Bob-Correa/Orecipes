@@ -3,12 +3,17 @@ import { Route, Routes } from 'react-router';
 import type { IRecipe } from './@types/recipe';
 import { fetchData } from './api/api';
 import Header from './components/Header';
-import MainPage from './components/MainPage';
 import NavBar from './components/Nav';
-import RecipePage from './components/RecipePage';
+import FavoritesPage from './pages/FavoritesPage';
+import MainPage from './pages/MainPage';
+import RecipePage from './pages/RecipePage';
+import { useUserStore } from './store/store';
 
 function App() {
   const [isDark, setIsDark] = useState(false);
+
+  // On recupere le user du store pour conditionner l'existance de la route /favorites
+  const { user } = useUserStore();
 
   // STATE pour stocker les recettes
   // on va les passer via une prop
@@ -84,6 +89,9 @@ function App() {
               <Routes>
                 <Route path="/" element={<MainPage recipesList={recipes} />} />
                 <Route path="/recipe/:slug" element={<RecipePage />} />
+                {user && (
+                  <Route path="/favorites" element={<FavoritesPage />} />
+                )}
                 <Route path="*" element={<div>Page Non Trouvée</div>} />
               </Routes>
             </div>

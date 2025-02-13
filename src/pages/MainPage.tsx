@@ -1,5 +1,5 @@
 import type { IRecipe } from '../@types/recipe';
-import RecipeCard from './RecipeCard';
+import RecipeCard from '../components/RecipeCard';
 
 interface MainPageProps {
   recipesList: IRecipe[];
