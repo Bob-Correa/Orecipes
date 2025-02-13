@@ -26,8 +26,6 @@ export default function FavoritesPage() {
           },
         },
       );
-      console.log(favRecipes);
-
       // on a recup les recettes on peut les placer dans le state
       setFavRecipes(data.favorites);
     };

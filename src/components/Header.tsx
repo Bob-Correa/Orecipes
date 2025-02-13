@@ -33,7 +33,6 @@ export default function Header() {
           },
         },
       );
-      console.log(response);
       // on reçoit un JWT, un pseudo et un booleen à true
       // on va supprimer le potentiel message d'erreur
       setLoginError(null);
@@ -41,7 +40,7 @@ export default function Header() {
       // on veut stocker le user (son pseudo et son jwt) dans le store zustand
       // on va utiliser la fonction login de notre store pour enregistrer les infos
       login(response.pseudo, response.token);
-    } catch (e) {
+    } catch (_e) {
       // si on reçoit une 401, on va passer dans le catch
       setLoginError('Erreur de connexion....');
     }
@@ -70,7 +69,7 @@ export default function Header() {
             </div>
           ) : (
             <form
-              className="flex"
+              className="flex text-neutral-300"
               // nouveauté react 19 au lieu de mettre un onSubmit et de recuperer le formData dans le currentTarget de l'event on peut utilise rla prop action et on aura direct le formData
               action={(formData) => {
                 const email = formData.get('email') as string;

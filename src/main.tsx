@@ -1,6 +1,5 @@
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router';
 import App from './App.tsx';
 
@@ -8,16 +7,11 @@ import App from './App.tsx';
 // createRoot accepte en paramètre un container (Element ou DocumentFragment ou Document)
 
 const rootElt = document.getElementById('root');
-const queryClient = new QueryClient();
 
 if (rootElt) {
   createRoot(rootElt).render(
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </QueryClientProvider>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
   );
-} else {
-  console.log("erreur il n'y a pas de div root dans la page");
 }

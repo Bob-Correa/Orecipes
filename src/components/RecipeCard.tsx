@@ -9,7 +9,7 @@ interface RecipeCardProps {
 // COMPOSANT RecipeCard
 export default function RecipeCard({ recipeToDisplay }: RecipeCardProps) {
   return (
-    <div className="card bg-base-100 shadow-xl">
+    <div className="card bg-base-100 shadow-xl text-gray-300">
       <figure>
         <img src={recipeToDisplay.thumbnail} alt={recipeToDisplay.title} />
       </figure>

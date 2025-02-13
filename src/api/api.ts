@@ -1,20 +1,22 @@
-// une fonction générique qui fetch des données et throw une erreur si le fetch plante et si tout se passe bien renvoie les res données
+/**
+ * fonction générique qui fetch des données :
+ * - elle prend en paramètre une url et un objet de config
+ * - elle prend en générique le type des données qu'elle va renvoyer
+ */
 export const fetchData = async <GenericTypeOfReturnedData>(
   urlToFetch: string,
-  configObject: {
-    method?: string;
-    body?: string;
-    // faudrait ajouter le typage de toutes les option de configuration possible pour un fetch
-  } = {},
+  // pour typer l'objet de config de fetch on utilise le type RequestInit
+  // il contient toutes les propriétés qu'on peut passer à fetch
+  configObject: RequestInit = {},
 ) => {
-  // fetch des recettes
+  // fetch
   const response = await fetch(urlToFetch, configObject);
   if (!response.ok) {
+    // si la reponse n'est pas ok on throw une erreur
     throw new Error('Le fetch a planté');
   }
+  // on parse la reponse en json et on la type
   const data = (await response.json()) as GenericTypeOfReturnedData;
-  // on log les data reçues
-  // console.log(data);
-
+  // on renvoie les données
   return data;
 };
