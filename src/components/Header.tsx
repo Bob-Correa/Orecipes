@@ -32,7 +32,7 @@ export default function Header() {
               clipRule="evenodd"
             />
           </svg>
-          <input type="password" className="grow" value="password" />
+          <input type="password" className="grow" />
         </label>
         <button type="submit" className="btn btn-primary">
           OK

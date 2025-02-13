@@ -1,18 +1,23 @@
-export default function RecipeCard() {
+import type { IRecipe } from '../@types/recipe';
+
+// TYPESCRIPT : type des props du composant RecipeCard
+interface RecipeCardProps {
+  recipeToDisplay: IRecipe;
+}
+
+// COMPOSANT RecipeCard
+export default function RecipeCard({ recipeToDisplay }: RecipeCardProps) {
   return (
     <div className="card bg-base-100 shadow-xl">
       <figure>
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          alt="Shoes"
-        />
+        <img src={recipeToDisplay.thumbnail} alt={recipeToDisplay.title} />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">Shoes!</h2>
-        <p>If a dog chews shoes whose shoes does he choose?</p>
+        <h2 className="card-title">{recipeToDisplay.title}</h2>
+        <p>{recipeToDisplay.description}</p>
         <div className="card-actions justify-end">
           <button type="button" className="btn btn-primary">
-            Buy Now
+            Voir la recette
           </button>
         </div>
       </div>
