@@ -1,0 +1,64 @@
+# le nom de notre workflow
+name: Deploy on surge
+
+# le trigger : quand est ce que le workflow s'execute (ici au push sur master)
+on: 
+  push:
+    branches: 
+      - main
+
+    # la liste des jobs, ici y'en a qu'un il s'apelle build-and-deploy
+jobs: 
+
+  build-and-deploy: 
+    # le job s'execute sur un environnement linux
+    runs-on: ubuntu-latest
+
+    # liste des actions: 
+    steps: 
+      # on recupère le code depuis github sur le runner de githubAction
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      # on utilise l'action de pnpm pour installer pnpm sur notre runner
+      - name: ⚙️ Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
+
+      # Installer Node
+      - name: ⚙️ Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      # Install des dependances listées dans le package.json avec pnpm 
+      - name: 📦 Install dependencies
+        run: pnpm install
+
+      # TESTS (on les ajoutera vendredi)
+
+      # CHECK lint et format
+      # install de la CLI de biome sur le runner
+      # - name: ⚙️ Setup Biome
+      #   uses: biomejs/setup-biome@v2
+      #   with:
+      #     version: latest
+
+      # Lance le script ci qui correspond à un check (format + lint + imports order)
+      # - name: 🎨 Run Biome
+      #   run: biome ci .
+
+      # build de notre code avec le script "build" de notre package.json
+      - name: 🏗️ Build
+        run: pnpm build
+
+      # on installe surge en global sur le runner
+      - name: ⚙️ Setup Surge
+        run: npm install -g surge
+
+      - name: 🚀 Deploy on surge
+        run: surge ./dist orecipes.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+      

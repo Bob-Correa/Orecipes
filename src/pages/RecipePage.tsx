@@ -26,7 +26,7 @@ export default function RecipePage() {
           console.log(recipe);
 
           setRecette(recipe);
-        } catch (e) {
+        } catch (_e) {
           // si on catch une erreur on met un message dans le state
           setErrorMessage('Cette recette nexiste pas');
         }
