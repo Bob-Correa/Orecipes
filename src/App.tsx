@@ -58,8 +58,12 @@ function App() {
   );
 
   return (
-    <div className="flex min-h-screen">
-      <button onClick={() => setIsDark(!isDark)} className="absolute">
+    <div className="flex min-h-screen text-gray-800">
+      <button
+        type="button"
+        onClick={() => setIsDark(!isDark)}
+        className="absolute"
+      >
         {isDark ? <div>☀️</div> : <div>🌙</div>}
       </button>
       {
@@ -80,6 +84,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<MainPage recipesList={recipes} />} />
                 <Route path="/recipe/:slug" element={<RecipePage />} />
+                <Route path="*" element={<div>Page Non Trouvée</div>} />
               </Routes>
             </div>
           </>
