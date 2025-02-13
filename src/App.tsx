@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router';
 import type { IRecipe } from './@types/recipe';
+import { fetchData } from './api/api';
 import Header from './components/Header';
 import MainPage from './components/MainPage';
 import NavBar from './components/Nav';
+import RecipePage from './components/RecipePage';
 
 function App() {
   const [isDark, setIsDark] = useState(false);
@@ -23,16 +26,12 @@ function App() {
     () => {
       const fetchRecipes = async () => {
         try {
-          // fetch des recettes
-          const response = await fetch(
+          // on utilise notre fonction générique pour faire le fetch
+          // on lui donne en paramètre l'url à fetch
+          // et en generique les types des données que la fonction va nous renvoyer
+          const data = await fetchData<IRecipe[]>(
             'https://orecipesapi.onrender.com/api/recipes',
           );
-          if (!response.ok) {
-            throw new Error('Le fetch a planté');
-          }
-          const data = (await response.json()) as IRecipe[];
-          // on log les data reçues
-          // console.log(data);
 
           // on les enregistre dans le state
           setRecipes(data);
@@ -77,7 +76,11 @@ function App() {
               {errorMessage && (
                 <p className="p-4 text-orange-600">{errorMessage}</p>
               )}
-              <MainPage recipesList={recipes} />
+
+              <Routes>
+                <Route path="/" element={<MainPage recipesList={recipes} />} />
+                <Route path="/recipe/:slug" element={<RecipePage />} />
+              </Routes>
             </div>
           </>
         )
