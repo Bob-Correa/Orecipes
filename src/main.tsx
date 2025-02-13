@@ -1,4 +1,3 @@
-import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
@@ -10,9 +9,7 @@ const rootElt = document.getElementById('root');
 
 if (rootElt) {
   createRoot(rootElt).render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
+    <App />,
   );
 } else {
   console.log("erreur il n'y a pas de div root dans la page");

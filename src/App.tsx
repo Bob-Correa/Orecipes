@@ -11,6 +11,10 @@ function App() {
   // - à MainPage pour qu'il affiche des RecipeCard
   // on précise avec le generic de useState que ce state va stocker un tableau de recettes
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
+  // STATE pour stocker l'etat de loading initialisé à true , on le passe à false quand on a fini le fetch
+  const [isLoading, setIsLoading] = useState(true);
+  // STATE pour stocker l'erreur (au debut c'est null et si y'a une erreur ça sera une string)
+  const [errorMessage, setErrorMessage] = useState<null | string>(null);
 
   useEffect(
     // callback qui fetch les recettes et rempli le state
@@ -30,9 +34,21 @@ function App() {
 
           // on les enregistre dans le state
           setRecipes(data);
-        } catch (e) {
-          console.log('erreur de fetch');
+
+          // on vire le potentiel message d'erreur du state
+          setErrorMessage(null);
+        } catch (error: unknown) {
+          // error est de type unknown et ensuite en fonction de l'erreur reçue on pourra préciser le type
+          if (error instanceof Error) {
+            // si l'erreur reçue est du type de celle qu'on a throw en cas de probleme de non response ok alors on enregistre le message dans le state
+            setErrorMessage(error.message);
+          }
+          // on pourrait ajouter d'autre if pour d'autre types d'erreurs
         }
+
+        // on a les recettes ou on a eu un bug de fetch on est passé dans le cacth
+        // dans tous les cas on passe le loader à false
+        setIsLoading(false);
       };
       fetchRecipes();
     },
@@ -42,11 +58,23 @@ function App() {
 
   return (
     <div className="flex min-h-screen">
-      <NavBar recipesList={recipes} />
-      <div className="p-4 w-3/4 bg-white">
-        <Header />
-        <MainPage recipesList={recipes} />
-      </div>
+      {
+        // si isLoading est vrai alors on affiche un loader et sinon on affiche la navbar et le main
+        isLoading ? (
+          <span className="loading loading-bars loading-lg flex justify-center" />
+        ) : (
+          <>
+            <NavBar recipesList={recipes} />
+            <div className="p-4 w-3/4 bg-white">
+              <Header />
+              {errorMessage && (
+                <p className="p-4 text-orange-600">{errorMessage}</p>
+              )}
+              <MainPage recipesList={recipes} />
+            </div>
+          </>
+        )
+      }
     </div>
   );
 }
