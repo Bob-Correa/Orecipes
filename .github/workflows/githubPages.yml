@@ -54,6 +54,8 @@ jobs:
         run: pnpm install
 
       # TEST et LINTER si besoin
+      - name: Lancement des tests
+        run: pnpm test
 
       # CHECK lint et format
       # install de la CLI de biome sur le runner
