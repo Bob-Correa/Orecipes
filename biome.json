@@ -34,7 +34,7 @@
         "noUnusedVariables": "error"
       }
     },
-    "ignore": ["dist"]
+    "ignore": ["dist", "coverage"]
   },
   "javascript": {
     "formatter": {
