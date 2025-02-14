@@ -4,16 +4,29 @@ import type { IRecipe } from './@types/recipe';
 import { fetchData } from './api/api';
 import Header from './components/Header';
 import NavBar from './components/Nav';
+import { getTokenAndPseudoFromlocalStorage } from './localStorage/localStorage';
 import FavoritesPage from './pages/FavoritesPage';
 import MainPage from './pages/MainPage';
 import RecipePage from './pages/RecipePage';
 import { useUserStore } from './store/store';
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
-
   // On recupere le user du store pour conditionner l'existance de la route /favorites
-  const { user } = useUserStore();
+  const { user, login } = useUserStore();
+
+  // on ajoute un useeffect pour aller chercher le sinfos du localstorage pour si y'en a les sauvegarder dans le store
+  useEffect(() => {
+    // on va chercher le token dans le local storage
+    const infosLocalStorage = getTokenAndPseudoFromlocalStorage();
+
+    if (infosLocalStorage) {
+      // on les sauvegarde dans le store
+      // avec la fonction login du store
+      login(infosLocalStorage.pseudo, infosLocalStorage.token);
+    }
+  }, []);
+
+  const [isDark, setIsDark] = useState(false);
 
   // STATE pour stocker les recettes
   // on va les passer via une prop
@@ -26,6 +39,7 @@ function App() {
   // STATE pour stocker l'erreur (au debut c'est null et si y'a une erreur ça sera une string)
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
 
+  // dans les useEffect on met des effets de bord c'est des choses qui ne concerne pas le rendu JSX
   useEffect(
     // callback qui fetch les recettes et rempli le state
     () => {

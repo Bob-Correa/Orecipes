@@ -2,10 +2,12 @@ import { NavLink } from 'react-router';
 import type { IRecipe } from '../@types/recipe';
 import { useUserStore } from '../store/store';
 
+// TYPE des props
 interface NavBarProps {
   recipesList: IRecipe[];
 }
 
+// COMPOSANT
 export default function NavBar({ recipesList }: NavBarProps) {
   // on rcupere le user du store
   const { user } = useUserStore();

@@ -6,12 +6,11 @@ import App from './App.tsx';
 // getElementById renvoie une valeur de type HTMLElement ou null , nous on met le ! qui dit c'est pas null donc c'est forcement un Element
 // createRoot accepte en paramètre un container (Element ou DocumentFragment ou Document)
 
-const rootElt = document.getElementById('root');
+const rootElt = document.getElementById('root')!;
 
-if (rootElt) {
-  createRoot(rootElt).render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>,
-  );
-}
+// createRoot veut en paramètre un element qui ne soit pas null
+createRoot(rootElt).render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+);

@@ -2,6 +2,10 @@
 import { useState } from 'react';
 import { fetchData } from '../api/api';
 import logo from '../assets/logo.png';
+import {
+  deleteTokenAndPseudoFromlocalStorage,
+  saveTokenAndPseudoInlocalStorage,
+} from '../localStorage/localStorage';
 import { useUserStore } from '../store/store';
 
 export default function Header() {
@@ -40,6 +44,9 @@ export default function Header() {
       // on veut stocker le user (son pseudo et son jwt) dans le store zustand
       // on va utiliser la fonction login de notre store pour enregistrer les infos
       login(response.pseudo, response.token);
+
+      // on va aussi stocker le user dans le localstorage
+      saveTokenAndPseudoInlocalStorage(response.token, response.pseudo);
     } catch (_e) {
       // si on reçoit une 401, on va passer dans le catch
       setLoginError('Erreur de connexion....');
@@ -62,6 +69,9 @@ export default function Header() {
                   // on deconnecte le user = on vide user dans le store
                   // on utilise la fonction logout du store pour le supprimer
                   logout();
+
+                  // on va aussi supprimer le user du localStorage
+                  deleteTokenAndPseudoFromlocalStorage();
                 }}
               >
                 se deconnecter

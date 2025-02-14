@@ -6,7 +6,7 @@ import { fetchData } from '../api/api';
 
 export default function RecipePage() {
   const params = useParams();
-  const slugDeLurl = params.slug;
+  const slugDeLurl = params.slug!;
 
   // STATE pour stocker la recette
   // initialise le state à null mais on précise que plus tard y'aura une recette
@@ -71,9 +71,26 @@ export default function RecipePage() {
       </ul>
       <h2 className="text-sky-600 text-xl border-b-1 mb-4">Instructions</h2>
       <ul>
-        {recette.instructions.map((instructions) => (
-          <li className="mb-2" key={instructions}>
-            {instructions}
+        {recette.instructions.map((instruction) => (
+          <li
+            className="mb-2"
+            key={instruction}
+            dangerouslySetInnerHTML={{
+              __html: instruction,
+            }}
+          >
+            {
+              // de base si je met ici le texte d'une instruction qui vient de la la base
+              // ce n'est pas interpreté
+              // je veux interpreter (passer du textContent au innerHTML)
+              // on place le code dans la prop dangerouslySetInnerHTML plutot que entre les balises ouvrantes et fermantes
+              // mais attention avant de faire ça il faut nettoyer le code
+              // soit avec un regex , on verifie que y'a pas les caractères javascript
+              // soit on utilise une lib qui le fait pour nous
+              // exemple avec DOMpurify
+              // const clean = DOMPurify.sanitize(dirty);
+              instruction
+            }
           </li>
         ))}
       </ul>
