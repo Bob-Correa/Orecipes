@@ -42,14 +42,14 @@ jobs:
 
       # CHECK lint et format
       # install de la CLI de biome sur le runner
-      # - name: ⚙️ Setup Biome
-      #   uses: biomejs/setup-biome@v2
-      #   with:
-      #     version: latest
+      - name: ⚙️ Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
 
       # Lance le script ci qui correspond à un check (format + lint + imports order)
-      # - name: 🎨 Run Biome
-      #   run: biome ci .
+      - name: 🎨 Run Biome
+        run: biome ci .
 
       # build de notre code avec le script "build" de notre package.json
       - name: 🏗️ Build

@@ -15,6 +15,7 @@ function App() {
   const { user, login } = useUserStore();
 
   // on ajoute un useeffect pour aller chercher le sinfos du localstorage pour si y'en a les sauvegarder dans le store
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <getTokenAndPseudoFromlocalStorage ne changera pas donc pas besoin d ela mettre dans le tableau de deps>
   useEffect(() => {
     // on va chercher le token dans le local storage
     const infosLocalStorage = getTokenAndPseudoFromlocalStorage();

@@ -75,23 +75,20 @@ export default function RecipePage() {
           <li
             className="mb-2"
             key={instruction}
+            // de base si je met ici le texte d'une instruction qui vient de la la base
+            // ce n'est pas interpreté
+            // je veux interpreter (passer du textContent au innerHTML)
+            // on place le code dans la prop dangerouslySetInnerHTML plutot que entre les balises ouvrantes et fermantes
+            // mais attention avant de faire ça il faut nettoyer le code
+            // soit avec un regex , on verifie que y'a pas les caractères javascript
+            // soit on utilise une lib qui le fait pour nous
+            // exemple avec DOMpurify
+            // const clean = DOMPurify.sanitize(dirty);
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: <j'ai bien nettoyé le code c'est bon>
             dangerouslySetInnerHTML={{
               __html: instruction,
             }}
-          >
-            {
-              // de base si je met ici le texte d'une instruction qui vient de la la base
-              // ce n'est pas interpreté
-              // je veux interpreter (passer du textContent au innerHTML)
-              // on place le code dans la prop dangerouslySetInnerHTML plutot que entre les balises ouvrantes et fermantes
-              // mais attention avant de faire ça il faut nettoyer le code
-              // soit avec un regex , on verifie que y'a pas les caractères javascript
-              // soit on utilise une lib qui le fait pour nous
-              // exemple avec DOMpurify
-              // const clean = DOMPurify.sanitize(dirty);
-              instruction
-            }
-          </li>
+          />
         ))}
       </ul>
     </main>
