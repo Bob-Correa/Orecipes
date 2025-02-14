@@ -1,7 +1,7 @@
 // notre composant
 import { describe, test } from 'vitest';
-import { render } from '../customFakeRenderWithBrowserRouter';
 import RecipeCard from '../../components/RecipeCard';
+import { render } from '../customFakeRenderWithBrowserRouter';
 
 describe('test du composant CardRecioe', () => {
   test('Component render with cookies in props should display Cookie title in the document', () => {
