@@ -1,0 +1,88 @@
+# le nom de notre workflow
+name: Deploy on surge
+
+# On défini des permissions pour autoriser le déploiement sur GitHub Pages
+# copié collé de la doc, obligatoire pour que ça marche
+permissions:
+  # Permission de lire le contenu du dépôt
+  # (nécessaire pour le processus de checkout du code, comme dans l'étape actions/checkout@v4)
+  contents: read
+  # Permission d'écrire sur GH Pages
+  # (essentiel pour que le processus de déploiement fonctionne correctement)
+  pages: write
+  # Permet de créer un token
+  # (peut être nécessaire pour interagir avec d'autres services ou APIs externes pour prouver l'identité du workflow ; ex. : Google Cloud, authentification OAuth…)
+  id-token: write
+
+# le trigger : quand est ce que le workflow s'execute (ici au push sur master)
+on: 
+  push:
+    branches: 
+      - main
+
+# liste des jobs à faire
+jobs:
+
+  build:
+    # Utilise une machine virtuelle Ubuntu pour exécuter les actions
+    # y'aura rien d'installé dessus
+    runs-on: ubuntu-latest 
+
+    # Liste des actions
+    steps:
+
+      # Étape 1: Recuperer le code (sans les node_modules)
+      - name: Checkout code du depot
+        uses: actions/checkout@v4
+
+      # Installer Node
+      - name: Setup Node
+        uses: actions/setup-node@v4
+
+      # Installer les dependances pour avoir les nodes_modules
+      - name: Install deps
+        run: npm ci
+
+      # TEST et LINTER si besoin
+
+      # CHECK lint et format
+      # install de la CLI de biome sur le runner
+      - name: ⚙️ Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+
+      # Lance le script ci qui correspond à un check (format + lint + imports order)
+      - name: 🎨 Run Biome
+        run: biome ci .
+
+      # Build pour avoir notre dossier dist (bundle)
+      - name: Build project
+        run: npm run build
+
+      # Création d'un artifact contenant notre bundle (pour l'utiliser dans le job deploy)
+      - name: 📤 Création du GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+      
+
+  deploy:
+    # on precise que ce job ne doit commencer si build n'est pas fini
+    needs: build
+
+    # on choit notre environnement d'execution des actions
+    runs-on: ubuntu-latest 
+
+    steps:
+      - name: 🚀 Déploiement sur GitHub Pages
+        # avec id on donne le nom 'deployment' à notre step, il sera utilisé pour récupérer notre url dans les outputs
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      # Affichage de l'URL du site
+      - name: 🔗 URL du site déployé
+        # l'url de la page github sera disponible dans les outputs de la step ayant l'id deployment
+        # elle sera normalement de type : https://<username>.github.io/<repo>/
+        # attention faudra ajouter la base URL dans la config de Vite sinon le nom du repo ne sera prit en compte
+        run: echo "🔗 Votre site est disponible à ${{ steps.deployment.outputs.page_url }}"
