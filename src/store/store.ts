@@ -22,7 +22,6 @@ export const useUserStore = create<IStore>((set) => ({
   // un reducer est une fonction qui pour un nom d'action donné renvoie un nouveau state
   login: (username: string, jwtToken: string) =>
     set(() => ({
-      // todo : plus tard, on pourra aussi directement synchroniser le store avec le localStorage pour le conserver (voir la doc)
       user: { name: username, jwtToken: jwtToken },
     })),
   logout: () => set({ user: null }),

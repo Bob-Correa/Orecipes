@@ -78,7 +78,7 @@ function App() {
   );
 
   return (
-    <div className="flex min-h-screen text-gray-800">
+    <div className="flex min-h-screen text-soso">
       <button
         type="button"
         onClick={() => setIsDark(!isDark)}
