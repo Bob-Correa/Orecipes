@@ -17,7 +17,8 @@
     "test:verbose": "vitest run --reporter=verbose",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "start": "vite preview --port 5173 --host 0.0.0.0"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.6",
