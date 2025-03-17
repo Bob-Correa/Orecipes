@@ -17,4 +17,8 @@ export default defineConfig({
     // voire simulera un serveur pour nos requêtes HTTP…
     setupFiles: '/src/tests/setup.ts',
   },
+  server: {
+    host: '0.0.0.0', // Permet la connexion à partir de réseaux externes
+    port: process.env.PORT || 5173 // Utilise la variable d'environnement PORT si disponible
+  }
 });
