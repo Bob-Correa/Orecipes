@@ -19,6 +19,6 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0', // Permet la connexion à partir de réseaux externes
-    port: process.env.PORT || 5173 // Utilise la variable d'environnement PORT si disponible
+    port: Number.parseInt( process.env.PORT || "", 10) || 5173 // Utilise la variable d'environnement PORT si disponible
   }
 });
